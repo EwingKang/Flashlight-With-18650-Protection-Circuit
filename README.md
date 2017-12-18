@@ -4,6 +4,7 @@ A circuit that give warning and eventually cut-off your Lithium battery when vol
 **If you're not familiar with circuits like me, you may want to read the Q&A section below.**
 
 ### performance and design experience
+
 **TBD**
 
 ### parts list (total: 46)
@@ -38,11 +39,19 @@ A circuit that give warning and eventually cut-off your Lithium battery when vol
 
 ### circuit explainations
 ##### definitions
+
+***TBD***
+
 signal rail
+
 circuit power rail
+
 V_cpr
+
 pull up 
+
 pull down
+
 ##### ON
 When circuit is on, the T1 is turned on (Base pulled low), providing power to the circuit power rails (3rd horizontal line). At this state, TL431 (IC2) gives the accurate voltage reference of 2.495v. The reference is compared against the voltage between a voltage divider R8 and R9. Since (-) pin of the Op-amp LM2904D (IC1B) is higher, the output is pulled low to ground, thus shutting down the T2. R13 is there to provide proper NPN Base pin current limit. Since T2 is "off", the Base of T3 is pulled high by R14, and thus the N-MOSFET T3 is turned on to drain any current from R3. The gate pin(pin1) of AO3415(T5) is thus pulled low and turn the P-channel MOSFET on, providing power to VDD.
 

@@ -7,13 +7,13 @@ A circuit that give warning and eventually cut-off your Lithium battery when vol
 
 **TBD**
 
-### parts list (total: 46)
-* Capacitor
-  * 0.1μF X1
-  * 1μF X5
-* LED
-  * 15mA Red Led X1
-  * 1W high power LED X4
+### parts list (total: 46) 
+* Capacitor 
+  * 0.1μF X1 
+  * 1μF X5 
+* LED 
+  * 15mA Red Led X1 
+  * 1W high power LED X4 
 * IC
   * AMC7135: 1W LED current regulator X4 
   * LM2904D: Dual Operational Amplifiers X1 

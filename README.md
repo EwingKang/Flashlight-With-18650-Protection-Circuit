@@ -7,35 +7,35 @@ A circuit that give warning and eventually cut-off your Lithium battery when vol
 
 **TBD**
 
-### parts list (total: 46) 
-* Capacitor 
-  * 0.1μF X1 
-  * 1μF X5 
-* LED 
-  * 15mA Red Led X1 
-  * 1W high power LED X4 
-* IC
-  * AMC7135: 1W LED current regulator X4 
-  * LM2904D: Dual Operational Amplifiers X1 
-  * TL431LP: Shunt Regulator (voltage reference) 
-* Transistor
-  * AO3415: Low-voltage P-channel MOSFET X1
-  * VN2222LL: Small Signal N-channel MOSFET X1
-  * PN2222A: General purpose NPN amplifier X1
-  * PN4355: General purpose PNP amplifier X1
-* Resistor (All 1/4 watt) 
-  * 100 Ω X1 
-  * 510 Ω X1 
-  * 680 Ω X1 
-  * 1K X5 
-  * 10K X1 
-  * 12K X2  
-  * 100K X1 
-  * 20K X5 
-  * 51K X4 
-* Switches 
-  * 6 pin DIP Tactile Push Button Switch (non-latching) X2 
-  * DPDT slide swtich X1 (optional, any on-off switch will work) 
+### parts list (total: 46)  
+* Capacitor  
+  * 0.1μF X1  
+  * 1μF X5  
+* LED  
+  * 15mA Red Led X1  
+  * 1W high power LED X4  
+* IC  
+  * AMC7135: 1W LED current regulator X4   
+  * LM2904D: Dual Operational Amplifiers X1   
+  * TL431LP: Shunt Regulator (voltage reference)   
+* Transistor  
+  * AO3415: Low-voltage P-channel MOSFET X1  
+  * VN2222LL: Small Signal N-channel MOSFET X1  
+  * PN2222A: General purpose NPN amplifier X1  
+  * PN4355: General purpose PNP amplifier X1  
+* Resistor (All 1/4 watt)   
+  * 100 Ω X1  
+  * 510 Ω X1  
+  * 680 Ω X1  
+  * 1K X5  
+  * 10K X1  
+  * 12K X2   
+  * 100K X1  
+  * 20K X5  
+  * 51K X4  
+* Switches  
+  * 6 pin DIP Tactile Push Button Switch (non-latching) X2  
+  * DPDT slide swtich X1 (optional, any on-off switch will work)  
 
 ### circuit explainations
 ##### definitions

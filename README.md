@@ -15,12 +15,12 @@ A circuit that give warning and eventually cut-off your Lithium battery when vol
   * 15mA Red Led X1  
   * 1W high power LED X4  
 * IC  
-  * AMC7135: 1W LED current regulator X4   
-  * LM2904D: Dual Operational Amplifiers X1   
-  * TL431LP: Shunt Regulator (voltage reference)   
+  * AMC7135: 1W LED current regulator X4  
+  * LM2904D: Dual Operational Amplifiers X1  
+  * TL431LP: Shunt Regulator (voltage reference)  
 * Transistor  
   * AO3415: Low-voltage P-channel MOSFET X1  
-  * VN2222LL: Small Signal N-channel MOSFET X1  
+  * VN2222LL: Small Signal N-channel MOSFET X1  
   * PN2222A: General purpose NPN amplifier X1  
   * PN4355: General purpose PNP amplifier X1  
 * Resistor (All 1/4 watt)   

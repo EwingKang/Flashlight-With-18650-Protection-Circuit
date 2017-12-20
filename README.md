@@ -1,10 +1,12 @@
 # One-Cell-18650-Flashlight-With-Protection-Circuit
 A circuit that give warning and eventually cut-off your Lithium battery when voltage is low. This circuit runs on a single cell of lithium batteries, which range from 4.2 to 3.0 volt. Also the standby current is virtualy zero current except gate leak. It's very usefull for my purpose of flashlights with four 1W LEDs.
 
-**If you're not familiar with circuits like me, you may want to read the Q&A section below.**
+* **If you're not familiar with circuits like me, the Q&A section below can give you a quick overview about the project.**  
+* **I'm a noob regarding the electronics area and learning, things I said might not be correct. If you know any mistakes, PLEASE LET ME KNOW. I'll very very grateful.**
+* **My only measring equipment is a 300NTD (~10 USD) multimeter, so values might not be accurate.**
 
-# Technical details
-### parts list (total: 46)  
+# Technical Details
+### -Parts list (total: 46)  
 * Capacitor
   * 0.1μF X1  
   * 1μF X5  
@@ -34,11 +36,11 @@ A circuit that give warning and eventually cut-off your Lithium battery when vol
   * 6 pin DIP Tactile Push Button Switch (non-latching) X2  
   * DPDT slide swtich X1 (optional, any on-off switch will work)  
 
-### circuit explainations
-#### definitions  
+### -Circuit explainations
+#### Definitions  
 To save time, I set down specific terms to describe some of the most often mentioned location within the circuit. This is purely for easy communication, and might be weird any trainned eyes.
 
-* signal rail
+* signal rail  
   The Junction between Gate(PIN1) of T5 and Drain(PIN3) of T3. The level of this line determins the on/off state of the entire circuit.  
 * circuit power rail  
   Vin_pin(PIN8) of IC1. This is the main power source to all the component involed in the voltage detection.  
@@ -74,31 +76,55 @@ A almost identical set for the cut-off side is replicate here. Instead of contro
 R19 is for proper current driving of T4, and R20 is the current limiter for the LED. The condition is set with LED drawing 10mA, with forward voltage of 2.5V. Combine with forward drop of Vce of T4, we get the operating voltage: V_cpr = 10 mA * 100 Ω (R20) + 2.5v (D1) + 0.3 (Vce of PN2222A) = 3.8 v. Actual voltage when LED lit is probably lower, but the LED will light up just fine.
 
 #### On/Off switching
-**TBD**
+This is actually a perticularly troubling function to be implement due to the possitive feedback properties. I've tried to solve this myself, but unfortunately have to seek help. Fortunately, nice people on the [electronics stackoverflow](https://electronics.stackexchange.com/) helped, [here](https://electronics.stackexchange.com/questions/332267/switch-off-this-single-cell-lithium-hi-power-led-driver-with-protection-circuit) you can find the original ask.
 
-#### Override
-**TBD**
+When the circuit is at OFF state, the V_cpr is at 0 volt, the C1 is charged with Vcc. At the moment SW1 is pushed, it effectively shorts the Base(PIN2) of T1 to ground, creating V_BE(1.1V) and turn the BJT ON. This provide power to circuit power rail and turn everything on. Once the V_cpr is stable, T3 will provide sink to current from pull-up resistor R1, maintaing the V_BE and keep T1 on.
 
-### performance and experiment experience
-During my 3 months research of the topic, I've made several errors causing endless pains. I'll share some of the things I've learned. Most of them is probably pretty noob, but it cost a lot if you're not being careful.
-* Performance of TLV431
-  **tbd**
-* Performance of the op-amp
-  **tbd**
+After the V_cpr is established, electrical charge of C1 will dissipate through R4 slowly if not depleted by the switch. At this ON state, there is only very little charge created by the voltage difference the Emitor and Collector of T1, or V_CE.
+If we press SW1 at this moment, we effectively short the signal rail to V_cpr, which is near the Vcc. The PNP T1 will loose its V_BE and shut down, cutting off the power to V_cpr and return to the OFF state.
+
+To my suprise when I first setup the circuit on the bread board, the SW1 can actually handle continuous press down. The ON/OFF operation will still function properly. I think this is because the transitional effect between voltage of signal rail, and the voltage between C1 and R4. We infact is creating a hysteresis switch with the button.
+
+#### Override (battery check)
+If the voltage has dropped below cut-off, you might still want to force lit the flashligt for really emergency situation, like light-fearing-zombie-attack or something. Also, you can use this button to check if the battery is really dead by looking at the status LED. Since I've set my cut-off voltage at 3.4v, there's still some energy inside before the lithium reachs the no-crossing line of 3.3V. It won't hurt if we only turn it on for a little while. 
+
+The override button in comparison is much simpler to the ON/OFF switch, despite not being as elegant as the latter. For a 6-pin tactile switch, there are two sets of selecting switch. We'll use one set as a simple switch, force open T1 by pulling signal rail low. At the same time, the other set is used as the selecting switch, charging C2 directly to Vcc. As we release the SW2 button, C2 is latched back to the signal rail while the pull-down at R6 disconnect. This charge pulls signal rail up with R3 can keep the voltage from discharge through T3 too quickly before T1 closes. And T1 shutdown, back to standby state.
+
+### -Performance and experiment experience
+During my 3 months research of the topic, I've made several errors causing endless pains. I'll share some of the things I've learned. Most of them is probably pretty noob, but it cost a lot if you're not being careful.  
+* Performance of TLV431  
+  The datasheet of TL431C clearly states the possible maximum of minimum cathode regulation current is 1mA, so we need to becareful about this value. It may seem normal when you measure it under normal condition, but when the battery is really low, it might have trouble maintaining proper voltage reference. This has cause me several hours of debugging.  
+For my design of 680Ω resistor, we'll reach our worst cast scenerio when the current is 1mA, with 2.5v across IC2, the R8 gives the voltage drop of V = 1mA * 680 Ω = 0.68 V. That is, V_cpr reached 3.18 V, which is far less then the cutoff @ 3.4V.  At full batteries with 4.2v, R8 will have voltage difference of 4.2 - 2.5 = 1.7V, which take 1.7v/ 680 Ω = 2.5 mA to operate.Of course, you may want to have an even lower value resistor to cope with lower battery voltage, but it will cost more current drawn under normal operation.  
+Another improvement can be made by replacing TL431C to TL**V**431, which gives lower voltage reference of 1.24V with minimum regulating current downto 100μA, which can be a lot better. Unfortunately this chip is not easily available to me.
+
+* Performance of the op-amp  
+At some point during the design and testing, I've encounter problems with unstable op-amp output. Sometimes it seem to give some intermediate value at the output. And this is because the performance of the op-amp. Despite the op-amp can work as low as 3v for the 2904, the output actually will having trouble either drop to 0v or pull-up to 3v. This is ofcourse because of the forward bias of the gates inside the chip. My circuit has evolve many times to mitigate this problem. However I would say this is a big trap to young players like me. To make things worse, all I've got is a 300 NTD (~10 USD) multimeter, I have no way to see and transitional effect less then 1 second.  
+Another interesting things is the input current. At one point I've think of using only one big strings of voltage divider to realize LED-warning and cut-off at the same time. However, I've bumped into the problem of whenever the ourput of op-amp change its state, the voltage at the divider seemed to changed a little bit. I think this is "Input Bias Current" mentioned in the data sheet. I have measured multiple point across that voltage diviter and calculate to have the result of the input pin would draw some extra current around 100 nA at (+)PIN when output jumps to high. 100nA might not seem much, but considering my voltage divider have the resistance around 10^4 Ω, the current would be in the range of 10^-4 A, or ~100 μA, And that current probably would produce some noticeable effects.  
 
 # Q&A
-#### What is this?
+### What is this?  
 The Main purpose of this humongous circuit is to protect your lithium battery. At the setting voltage, the circuit cut-off itself with virtually no current into the circuit (that is, except for the gate leakages). And it also lit some 1W LEDs so you may use it as a flash light.
 
-#### What function does it have?
+### What function does it have?  
 One on/off button for obvious purpose, and one override button just in case.
 
-#### Why Should I build one?
+### Why Should I build one?
 Because you shouldn't. There're tonnes of dirt cheap Lithium protection circuit with way better performance. You may simply type in "battery protection circuit" into eBay and you'll get numerous results. Some even integrated the circuit into 18650 holders really impressed me.
 However if you're a noob in circuit like me, and trying to learn stuff teachers don't teach you at school, this would be an easy example that is more than 5 elements.
 
-#### What is your electrical background?
+### What is your electrical background?
 Almost zero. I major in AeroSpace Engineering and people there are AFRAID of circuits. I built this circuit from scratch with a lot of googleing and the help of nice people at [electronics stack exchange](https://electronics.stackexchange.com/), see more information below.
 
-#### Why is that your schematic is squeeze to one side of the sheet?
-**TBD**
+### Why is that your schematic is squeeze to one side of the sheet?
+So that I can print it and cut to to a 1/4 size A4 paper, making my desktop less-messy.
+
+# Usefull links
+Ofcourse I didnot invent this circuit from scratch. There is many resources on the internet, but I didn't see anything that fit exactly my need. However, there are many that is really close. Links below are those helped a lot during my investigation and learning. They are experienced, knowledgeable, friendly, and passionate. Please give them a visit.
+
+[EEstack:TL431 Low battery cut-off](https://electronics.stackexchange.com/questions/213304/tl431-low-battery-cut-off)  
+[Electro-Tech-online.com forum:Help with Low Voltage Cutoff design](https://www.electro-tech-online.com/threads/help-with-low-voltage-cutoff-design.85189/)  
+[EEstack:Adding voltage cutoff to a circuit](https://electronics.stackexchange.com/questions/19714/adding-voltage-cutoff-to-a-circuit)  
+[EEVblog forum: Li-Ion battery low voltage cut off circuit needed for project](https://www.eevblog.com/forum/projects/li-ion-battery-low-voltage-cut-off-circuit-needed-for-project/)  
+[EEstack: Cut off low voltage lithium battery?](https://electronics.stackexchange.com/questions/231502/cut-off-low-voltage-lithium-battery)  
+[electronics-tutorial: op-amp-comparator](http://www.electronics-tutorials.ws/opamp/op-amp-comparator.html)  
+[my EEstack question :switch-this-circuit-off](https://electronics.stackexchange.com/questions/332267/switch-off-this-single-cell-lithium-hi-power-led-driver-with-protection-circuit)  

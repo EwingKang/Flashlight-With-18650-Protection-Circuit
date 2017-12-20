@@ -92,7 +92,7 @@ The override button in comparison is much simpler to the ON/OFF switch, despite 
 
 ### -Performance and experiment experience
 During my 3 months research of the topic, I've made several errors causing endless pains. I'll share some of the things I've learned. Most of them is probably pretty noob, but it cost a lot if you're not being careful.  
-* Performance of TLV431  
+* Performance of TL431  
   The datasheet of TL431C clearly states the possible maximum of minimum cathode regulation current is 1mA, so we need to becareful about this value. It may seem normal when you measure it under normal condition, but when the battery is really low, it might have trouble maintaining proper voltage reference. This has cause me several hours of debugging.  
 For my design of 680Ω resistor, we'll reach our worst cast scenerio when the current is 1mA, with 2.5v across IC2, the R8 gives the voltage drop of V = 1mA * 680 Ω = 0.68 V. That is, V_cpr reached 3.18 V, which is far less then the cutoff @ 3.4V.  At full batteries with 4.2v, R8 will have voltage difference of 4.2 - 2.5 = 1.7V, which take 1.7v/ 680 Ω = 2.5 mA to operate.Of course, you may want to have an even lower value resistor to cope with lower battery voltage, but it will cost more current drawn under normal operation.  
 Another improvement can be made by replacing TL431C to TL**V**431, which gives lower voltage reference of 1.24V with minimum regulating current downto 100μA, which can be a lot better. Unfortunately this chip is not easily available to me.

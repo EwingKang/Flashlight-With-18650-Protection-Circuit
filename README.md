@@ -1,5 +1,5 @@
 # One-Cell-18650-Flashlight-With-Protection-Circuit
-A circuit that give warning and eventually cut-off your Lithium battery when voltage is low. This circuit runs on a single cell of lithium batteries, which range from 4.2 to 3.0 volt. Also the standby current is virtualy zero current except gate leak. It's very usefull for my purpose of flashlights with four 1W LEDs.
+A circuit that give warning and eventually cut-off your Lithium battery when voltage is low. This circuit runs on a single cell of lithium batteries, which range from 4.2 to 3.0 volt. Also the standby current is virtualy zero current except gate leak. It's very usefull for my purpose of flashlights with four 1W LEDs. You can see the final product at [this google album](https://photos.app.goo.gl/fAde6V9GMi8JweGb2)
 
 * **If you're not familiar with circuits like me, the Q&A section below can give you a quick overview about the project.**  
 * **I'm a noob regarding the electronics area and learning, things I said might not be correct. If you know any mistakes, PLEASE LET ME KNOW. I'll very very grateful.**
